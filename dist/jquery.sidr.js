@@ -63,6 +63,8 @@
           speed = $menu.data('speed'),
           side = $menu.data('side'),
           displace = $menu.data('displace'),
+          fixed_width_body = $menu.data('fixed_width_body'),
+          close_on_select = $menu.data('close_on_select'),
           onOpen = $menu.data('onOpen'),
           onClose = $menu.data('onClose'),
           bodyAnimation,
@@ -107,7 +109,8 @@
 
         // Open menu
         if(displace){
-          $body.addClass('sidr-animating').css({
+          $body.addClass('sidr-animating').css(
+            !fixed_width_body ? {'position': 'absolute'} : {
             width: $body.width(),
             position: 'absolute'
           }).animate(bodyAnimation, speed, function() {
@@ -217,7 +220,9 @@
       source        : null,           // Override the source of the content.
       renaming      : true,           // The ids and classes will be prepended with a prefix when loading existent content
       body          : 'body',         // Page container selector,
-      displace: true, // Displace the body content or not
+      displace      : true,           // Displace the body content or not
+      fixed_width_body: true,         // When displace is true, push body off the page instead of resizing the body 
+      close_on_select: true,          // Close the drawer when an item is selected
       onOpen        : function() {},  // Callback when sidr opened
       onClose       : function() {}   // Callback when sidr closed
     }, options);
@@ -240,7 +245,9 @@
         speed          : settings.speed,
         side           : settings.side,
         body           : settings.body,
-        displace      : settings.displace,
+        displace       : settings.displace,
+        fixed_width_body: settings.fixed_width_body,
+        close_on_select: settings.close_on_select,
         onOpen         : settings.onOpen,
         onClose        : settings.onClose
       });
@@ -295,14 +302,18 @@
             var delta = Math.abs(e.timeStamp - this.touched);
             if(delta < 200) {
               e.preventDefault();
-              methods.toggle(name);
+              if ($this.data('close_on_select')) {
+                  methods.toggle(name);
+              }
             }
           });
         }
         else {
           $this.click(function(e) {
             e.preventDefault();
-            methods.toggle(name);
+            if ($this.data('close_on_select')) {
+                methods.toggle(name);
+            }
           });
         }
       }
