@@ -91,15 +91,6 @@
         // Lock sidr
         sidrMoving = true;
 
-        // Left or right?
-        if(side === 'left') {
-          bodyAnimation = {left: menuWidth + 'px'};
-          menuAnimation = {left: '0px'};
-        }
-        else {
-          bodyAnimation = {right: menuWidth + 'px'};
-          menuAnimation = {right: '0px'};
-        }
 
         // Prepare page if container is body
         if($body.is('body')){
@@ -109,19 +100,47 @@
 
         // Open menu
         if(displace){
-          $body.addClass('sidr-animating').css(
-            !fixed_width_body ? {'position': 'absolute'} : {
-            width: $body.width(),
-            position: 'absolute'
-          }).animate(bodyAnimation, speed, function() {
+          // Left or right?
+          if (fixed_width_body) {
+            if(side === 'left') {
+              bodyAnimation = {left: menuWidth + 'px'};
+              menuAnimation = {left: '0px'};
+            }
+            else {
+              bodyAnimation = {right: menuWidth + 'px'};
+              menuAnimation = {right: '0px'};
+            }
+  
+            $body.addClass('sidr-animating').css( {
+              width: $body.width(),
+              position: 'absolute'
+            })
+          } else {
+            if(side === 'left') {
+              bodyAnimation = {paddingLeft: menuWidth + 'px'};
+              menuAnimation = {left: '0px'};
+            }
+            else {
+              bodyAnimation = {paddingRight: menuWidth + 'px'};
+              menuAnimation = {right: '0px'};
+            }
+          }
+          
+          $body.animate(bodyAnimation, speed, function() {
             $(this).addClass(bodyClass);
           });
         }
         else {
+          if(side === 'left') {
+            menuAnimation = {left: '0px'};
+          } else {
+            menuAnimation = {right: '0px'};
+          }
           setTimeout(function() {
             $(this).addClass(bodyClass);
           }, speed);
         }
+        console.log(menuAnimation);
         $menu.css('display', 'block').animate(menuAnimation, speed, function() {
           sidrMoving = false;
           sidrOpened = name;
@@ -147,11 +166,11 @@
 
         // Right or left menu?
         if(side === 'left') {
-          bodyAnimation = {left: 0};
+          bodyAnimation = {left: 0, paddingLeft: 0};
           menuAnimation = {left: '-' + menuWidth + 'px'};
         }
         else {
-          bodyAnimation = {right: 0};
+          bodyAnimation = {right: 0, paddingRight: 0};
           menuAnimation = {right: '-' + menuWidth + 'px'};
         }
 
@@ -223,6 +242,7 @@
       displace      : true,           // Displace the body content or not
       fixed_width_body: true,         // When displace is true, push body off the page instead of resizing the body 
       close_on_select: true,          // Close the drawer when an item is selected
+      prevent_default: true,          // Prevent the default click/touch handler when a menu item is clicked
       onOpen        : function() {},  // Callback when sidr opened
       onClose       : function() {}   // Callback when sidr closed
     }, options);
@@ -248,6 +268,7 @@
         displace       : settings.displace,
         fixed_width_body: settings.fixed_width_body,
         close_on_select: settings.close_on_select,
+        prevent_default: settings.prevent_default,
         onOpen         : settings.onOpen,
         onClose        : settings.onClose
       });
@@ -301,18 +322,22 @@
           $this.bind('touchend', function(e) {
             var delta = Math.abs(e.timeStamp - this.touched);
             if(delta < 200) {
-              e.preventDefault();
+              if ($this.data('prevent_default')) {
+                e.preventDefault();
+              }
               if ($this.data('close_on_select')) {
-                  methods.toggle(name);
+                methods.toggle(name);
               }
             }
           });
         }
         else {
           $this.click(function(e) {
-            e.preventDefault();
+            if ($this.data('prevent_default')) {
+              e.preventDefault();
+            }
             if ($this.data('close_on_select')) {
-                methods.toggle(name);
+              methods.toggle(name);
             }
           });
         }
