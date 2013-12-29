@@ -45,7 +45,6 @@
   padding: 0 15px;
   margin: 0 0 5px;
   color: #333333;
-  line-height: 24px;
   background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #ffffff), color-stop(100%, #dfdfdf));
   background-image: -webkit-linear-gradient(#ffffff, #dfdfdf);
   background-image: -moz-linear-gradient(#ffffff, #dfdfdf);
@@ -81,14 +80,12 @@
 .sidr ul li {
   display: block;
   margin: 0;
-  line-height: 48px;
   border-top: 1px solid white;
   border-bottom: 1px solid #dfdfdf;
 }
 /* line 81, ../../src/scss/sidr/_base.scss */
 .sidr ul li:hover, .sidr ul li.active, .sidr ul li.sidr-class-active {
-  border-top: none;
-  line-height: 49px;
+  border-top: 1px solid transparent;;
 }
 /* line 85, ../../src/scss/sidr/_base.scss */
 .sidr ul li:hover > a, .sidr ul li:hover > span, .sidr ul li.active > a, .sidr ul li.active > span, .sidr ul li.sidr-class-active > a, .sidr ul li.sidr-class-active > span {
@@ -110,7 +107,6 @@
 }
 /* line 100, ../../src/scss/sidr/_base.scss */
 .sidr ul li ul li {
-  line-height: 40px;
   font-size: 13px;
 }
 /* line 104, ../../src/scss/sidr/_base.scss */
@@ -119,8 +115,7 @@
 }
 /* line 110, ../../src/scss/sidr/_base.scss */
 .sidr ul li ul li:hover, .sidr ul li ul li.active, .sidr ul li ul li.sidr-class-active {
-  border-top: none;
-  line-height: 41px;
+  border-top: 1px solid transparent;;
 }
 /* line 114, ../../src/scss/sidr/_base.scss */
 .sidr ul li ul li:hover > a, .sidr ul li ul li:hover > span, .sidr ul li ul li.active > a, .sidr ul li ul li.active > span, .sidr ul li ul li.sidr-class-active > a, .sidr ul li ul li.sidr-class-active > span {
