@@ -67,6 +67,7 @@
           close_on_select = $menu.data('close_on_select'),
           onOpen = $menu.data('onOpen'),
           onClose = $menu.data('onClose'),
+          close_opened_menus = $menu.data('close_opened_menus'),
           bodyAnimation,
           menuAnimation,
           scrollTop,
@@ -80,12 +81,14 @@
         }
 
         // If another menu opened close first
+        if (close_opened_menus) {
         if(sidrOpened !== false) {
           methods.close(sidrOpened, function() {
             methods.open(name);
           });
 
           return;
+        }
         }
 
         // Lock sidr
@@ -243,6 +246,7 @@
       fixed_width_body: true,         // When displace is true, push body off the page instead of resizing the body 
       close_on_select: true,          // Close the drawer when an item is selected
       prevent_default: true,          // Prevent the default click/touch handler when a menu item is clicked
+      close_opened_menus: true,       // Close other open menus
       onOpen        : function() {},  // Callback when sidr opened
       onClose       : function() {}   // Callback when sidr closed
     }, options);
@@ -268,6 +272,7 @@
         displace       : settings.displace,
         fixed_width_body: settings.fixed_width_body,
         close_on_select: settings.close_on_select,
+        close_opened_menus: settings.close_opened_menus,
         prevent_default: settings.prevent_default,
         onOpen         : settings.onOpen,
         onClose        : settings.onClose
