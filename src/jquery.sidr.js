@@ -143,7 +143,6 @@
             $(this).addClass(bodyClass);
           }, speed);
         }
-        console.log(menuAnimation);
         $menu.css('display', 'block').animate(menuAnimation, speed, function() {
           sidrMoving = false;
           sidrOpened = name;
